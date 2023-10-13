@@ -27,10 +27,15 @@ public class TicTacToeConsoleController implements TicTacToeController {
   }
 
   // -1 game ends, -2 not a valid number continue, -3 no next input parameter
-  private int getNextInt(Scanner scan, Appendable out, TicTacToeModel m) {
+  private int getNextInt(Scanner scan, Appendable out, TicTacToe m) {
 
     if (scan.hasNextInt()) {
-      return scan.nextInt() - 1;
+      int tmp = scan.nextInt();
+      if (tmp == 1 || tmp == 2 || tmp == 3) {
+        return tmp -1;
+      } else {
+        return -2;
+      }
     } else if (scan.hasNext()){
       try {
         if (scan.hasNext("q")) {
@@ -56,9 +61,13 @@ public class TicTacToeConsoleController implements TicTacToeController {
   public void playGame(TicTacToe m) {
     int row = -1;
     int col = -1;
+    int[] values;
+    int cnt;
 
     try {
       while (!m.isGameOver()) {
+        cnt = 0;
+        values = new int[2];
 
         if (scan.hasNext("q")) {
           out.append("Game quit! Ending game state:\n")
@@ -71,58 +80,31 @@ public class TicTacToeConsoleController implements TicTacToeController {
         out.append(m.getTurn().toString());
         out.append(":\n");
 
-
-
-        if (scan.hasNextInt()) {
-          row = scan.nextInt() - 1;
-          if (scan.hasNextInt()) {
-            col = scan.nextInt() - 1;
-          } else {
-            // 需要判断还有没有参数
-            if (scan.hasNext()) {
-              if (scan.hasNext("q")) {
-                out.append("Game quit! Ending game state:\n")
-                    .append(m.toString());
-                return;
-              } else {
-                out.append("Not a valid number: ")
-                    .append(scan.next())
-                    .append("\n");
-              }
-            } else {
-              // 没有下一个参数
+        while (cnt < 2) {
+          int tmp = getNextInt(scan, out, m);
+          switch (tmp) {
+            case -1:
               return;
-            }
-            continue;
-          }
-        } else {
-          if (scan.hasNext()) {
-            if (scan.hasNext("q")) {
-              out.append("Game quit! Ending game state:\n")
-                  .append(m.toString());
+            case -3:
               return;
-            } else {
-              out.append("Not a valid number: ")
-                  .append(scan.next())
-                  .append("\n");
+            case -2:
               continue;
-            }
-
-          } else {
-            // 没有下一个参数
-            return;
+            default:
+              values[cnt] = tmp;
+              cnt += 1;
           }
         }
 
         try {
-          m.move(row, col);
+          m.move(values[0], values[1]);
         } catch (RuntimeException e) {
           out.append("Not a valid move: ")
-              .append(String.valueOf(row + 1))
+              .append(String.valueOf(values[0] + 1))
               .append(", ")
-              .append(String.valueOf(col + 1))
+              .append(String.valueOf(values[1] + 1))
               .append('\n');
         }
+
       }
 
       out.append(m.toString());
