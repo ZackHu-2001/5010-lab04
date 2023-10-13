@@ -26,65 +26,119 @@ public class TicTacToeConsoleController implements TicTacToeController {
     scan = new Scanner(in);
   }
 
+  // -1 game ends, -2 not a valid number continue, -3 no next input parameter
+  private int getNextInt(Scanner scan, Appendable out, TicTacToeModel m) {
+
+    if (scan.hasNextInt()) {
+      return scan.nextInt() - 1;
+    } else if (scan.hasNext()){
+      try {
+        if (scan.hasNext("q")) {
+          out.append("Game quit! Ending game state:\n")
+              .append(m.toString());
+          return -1;
+        } else {
+          out.append("Not a valid number: ")
+              .append(scan.next())
+              .append("\n");
+          return -2;
+        }
+      } catch (IOException ioe) {
+        throw new IllegalStateException("Append failed", ioe);
+      }
+
+    } else {
+      return -3;
+    }
+  }
+
   @Override
   public void playGame(TicTacToe m) {
-    int row = 0;
-    int col = 0;
-
-//    2 2 1 1 3 3 1 2 1 3 2 3 2 1 3 1 3 2
-//    1 1 2 2 1 3 1 2 3 3 1 3 q
-//    1 1 2 2 1 3 1 2 3 3 3 2
-//    2 2 1 2 1 1 2 1 3 3
-//    1 1 2 2 1 3 2 q
-//    0 1 1 1 2 2 3 3 2 2 hello 2 3 1 3 2 1
-//    7.5 1 1 1 1 2 2 2 1 1 7 1 2 3 1
-//    1 1 4 2 q
-//    2 2 q
-//    1 1 2 4 q
-//    3 8.79 q
-//    1 1 2 2 1 3 q
-//    2 2 1 3 9 2 u 2 2 6 2 1 q
-//
+    int row = -1;
+    int col = -1;
 
     try {
-      while(scan.hasNextLine()) {
-        out.append(scan.nextLine());
+      while (!m.isGameOver()) {
+
+        if (scan.hasNext("q")) {
+          out.append("Game quit! Ending game state:\n")
+              .append(m.toString());
+          return;
+        }
+
+        out.append(m.toString());
+        out.append("\nEnter a move for ");
+        out.append(m.getTurn().toString());
+        out.append(":\n");
+
+
+
+        if (scan.hasNextInt()) {
+          row = scan.nextInt() - 1;
+          if (scan.hasNextInt()) {
+            col = scan.nextInt() - 1;
+          } else {
+            // 需要判断还有没有参数
+            if (scan.hasNext()) {
+              if (scan.hasNext("q")) {
+                out.append("Game quit! Ending game state:\n")
+                    .append(m.toString());
+                return;
+              } else {
+                out.append("Not a valid number: ")
+                    .append(scan.next())
+                    .append("\n");
+              }
+            } else {
+              // 没有下一个参数
+              return;
+            }
+            continue;
+          }
+        } else {
+          if (scan.hasNext()) {
+            if (scan.hasNext("q")) {
+              out.append("Game quit! Ending game state:\n")
+                  .append(m.toString());
+              return;
+            } else {
+              out.append("Not a valid number: ")
+                  .append(scan.next())
+                  .append("\n");
+              continue;
+            }
+
+          } else {
+            // 没有下一个参数
+            return;
+          }
+        }
+
+        try {
+          m.move(row, col);
+        } catch (RuntimeException e) {
+          out.append("Not a valid move: ")
+              .append(String.valueOf(row + 1))
+              .append(", ")
+              .append(String.valueOf(col + 1))
+              .append('\n');
+        }
       }
-//      while (!m.isGameOver()) {
-////        out.append("Enter a move for ").append(String.valueOf(m.getTurn())).append(": \n");
-//
-//        if (scan.hasNextInt()) {
-//          row = scan.nextInt();
-//          if (scan.hasNextInt()) {
-//            col = scan.nextInt();
-//          } else {
-//            out.append("Not a valid number: ").append(scan.next());
-//            continue;
-//          }
-//        }
-//
-//        try {
-//          m.move(row, col);
-//        } catch (RuntimeException e) {
-//          out.append(e.getMessage()).append('\n');
-//          return;
-//        }
-//
-//        //
-//
-//      }
-////      String element = scan.next();
-////      out.append("Hello world, " + element);
-//
-//      System.out.println("Game is over!");
-//      if (m.getWinner() == null) {
-//        System.out.println("Tie game.");
-//      } else {
-//        System.out.println(m.getWinner() + " wins.");
-//      }
+
+      out.append(m.toString());
+      out.append("\n");
+      out.append("Game is over! ");
+      if (m.getWinner() == null) {
+        out.append("Tie game.");
+      } else {
+        out.append(m.getWinner().toString());
+        out.append(" wins.");
+      }
+
     } catch (IOException ioe) {
       throw new IllegalStateException("Append failed", ioe);
     }
+
     System.out.println(out);
   }
 
