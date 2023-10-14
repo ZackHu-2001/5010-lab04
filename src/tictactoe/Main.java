@@ -12,8 +12,9 @@ public class Main {
    */
   public static void main(String[] args) {
 //    Readable input = new InputStreamReader(System.in);
-//    StringReader input = new StringReader("1 1 2 2 1 3 1 2 3 3 1 3 q");
-    StringReader input = new StringReader("0 1 1 1 2 2 3 3 2 2 hello 2 3 1 3 2 1");
+//    StringReader input = new StringReader("7.5 1 1 1 1 2 2 2 1 1 7 1 2 3 1");
+    StringReader input = new StringReader("2 2 1 1 3 3 1 2 1 3 2 3 2 1 3 1 3 2");
+//    StringReader input = new StringReader("0 1 1 1 2 2 3 3 2 2 hello 2 3 1 3 2 1");
     Appendable output = System.out;
     new TicTacToeConsoleController(input, output).playGame(new TicTacToeModel());
   }
