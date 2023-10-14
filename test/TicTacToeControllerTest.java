@@ -1,9 +1,7 @@
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
 import org.junit.Test;
-import tictactoe.Player;
 import tictactoe.TicTacToe;
 import tictactoe.TicTacToeConsoleController;
 import tictactoe.TicTacToeController;
@@ -32,6 +30,15 @@ public class TicTacToeControllerTest {
     c.playGame(m);
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidModel() {
+    TicTacToe m = null;
+    StringReader input = new StringReader("1 1 4 1 q");
+    Appendable output = new StringBuffer();
+    TicTacToeController c = new TicTacToeConsoleController(input, output);
+    c.playGame(m);
+  }
+
   @Test
   public void testRowOutOfBound() {
     TicTacToe m = new TicTacToeModel();
@@ -39,7 +46,7 @@ public class TicTacToeControllerTest {
     Appendable output = new StringBuffer();
     TicTacToeController c = new TicTacToeConsoleController(input, output);
     c.playGame(m);
-    StringBuffer stringBuffer = new StringBuffer("   |   |  \n" 
+    StringBuilder stringBuilder = new StringBuilder("   |   |  \n" 
         + "-----------\n" 
         + "   |   |  \n" 
         + "-----------\n" 
@@ -58,7 +65,7 @@ public class TicTacToeControllerTest {
         + "   |   |  \n" 
         + "-----------\n" 
         + "   |   |  ");
-    assertEquals(stringBuffer.toString(), output.toString());
+    assertEquals(stringBuilder.toString(), output.toString());
   }
 
   @Test
@@ -68,7 +75,7 @@ public class TicTacToeControllerTest {
     Appendable output = new StringBuffer();
     TicTacToeController c = new TicTacToeConsoleController(input, output);
     c.playGame(m);
-    StringBuffer stringBuffer = new StringBuffer("   |   |  \n" 
+    StringBuilder stringBuilder = new StringBuilder("   |   |  \n" 
         + "-----------\n" 
         + "   |   |  \n" 
         + "-----------\n" 
@@ -87,7 +94,7 @@ public class TicTacToeControllerTest {
         + "   |   |  \n" 
         + "-----------\n" 
         + "   |   |  ");
-    assertEquals(stringBuffer.toString(), output.toString());
+    assertEquals(stringBuilder.toString(), output.toString());
   }
 
   @Test
@@ -97,7 +104,7 @@ public class TicTacToeControllerTest {
     Appendable output = new StringBuffer();
     TicTacToeController c = new TicTacToeConsoleController(input, output);
     c.playGame(m);
-    StringBuffer stringBuffer = new StringBuffer( "   |   |  \n" 
+    StringBuilder stringBuilder = new StringBuilder("   |   |  \n" 
         + "-----------\n" 
         + "   |   |  \n" 
         + "-----------\n" 
@@ -115,8 +122,8 @@ public class TicTacToeControllerTest {
         + "-----------\n" 
         + "   |   |  \n" 
         + "-----------\n" 
-        "   |   |  ");
-    assertEquals(stringBuffer.toString(), output.toString());
+        + "   |   |  ");
+    assertEquals(stringBuilder.toString(), output.toString());
   }
 
   @Test
@@ -126,7 +133,7 @@ public class TicTacToeControllerTest {
     Appendable output = new StringBuffer();
     TicTacToeController c = new TicTacToeConsoleController(input, output);
     c.playGame(m);
-    StringBuffer stringBuffer = new StringBuffer( "   |   |  \n" 
+    StringBuilder stringBuilder = new StringBuilder("   |   |  \n" 
         + "-----------\n" 
         + "   |   |  \n" 
         + "-----------\n" 
@@ -145,14 +152,14 @@ public class TicTacToeControllerTest {
         + "   |   |  \n" 
         + "-----------\n" 
         + "   |   |  ");
-    assertEquals(stringBuffer.toString(), output.toString());
+    assertEquals(stringBuilder.toString(), output.toString());
 
     m = new TicTacToeModel();
     input = new StringReader("1 1 2 2 1 q");
     output = new StringBuffer();
     c = new TicTacToeConsoleController(input, output);
     c.playGame(m);
-    stringBuffer = new StringBuffer( "   |   |  \n" 
+    stringBuilder = new StringBuilder("   |   |  \n"
         + "-----------\n" 
         + "   |   |  \n" 
         + "-----------\n" 
@@ -176,7 +183,7 @@ public class TicTacToeControllerTest {
         + "   | O |  \n" 
         + "-----------\n" 
         + "   |   |  ");
-    assertEquals(stringBuffer.toString(), output.toString());
+    assertEquals(stringBuilder.toString(), output.toString());
   }
 
 
@@ -187,7 +194,7 @@ public class TicTacToeControllerTest {
     Appendable output = new StringBuffer();
     TicTacToeController c = new TicTacToeConsoleController(input, output);
     c.playGame(m);
-    StringBuffer stringBuffer = new StringBuffer( "   |   |  \n" 
+    StringBuilder stringBuilder = new StringBuilder("   |   |  \n" 
         + "-----------\n" 
         + "   |   |  \n" 
         + "-----------\n" 
@@ -205,7 +212,7 @@ public class TicTacToeControllerTest {
         + "   |   |  \n" 
         + "-----------\n" 
         + "   |   |  ");
-    assertEquals(stringBuffer.toString(), output.toString());
+    assertEquals(stringBuilder.toString(), output.toString());
   }
 
   @Test
@@ -215,7 +222,7 @@ public class TicTacToeControllerTest {
     Appendable output = new StringBuffer();
     TicTacToeController c = new TicTacToeConsoleController(input, output);
     c.playGame(m);
-    StringBuffer stringBuffer = new StringBuffer( "   |   |  \n" 
+    StringBuilder stringBuilder = new StringBuilder("   |   |  \n" 
         + "-----------\n" 
         + "   |   |  \n" 
         + "-----------\n" 
@@ -234,7 +241,7 @@ public class TicTacToeControllerTest {
         + "   |   |  \n" 
         + "-----------\n" 
         + "   |   |  ");
-    assertEquals(stringBuffer.toString(), output.toString());
+    assertEquals(stringBuilder.toString(), output.toString());
   }
 
   @Test
@@ -244,7 +251,7 @@ public class TicTacToeControllerTest {
     Appendable output = new StringBuffer();
     TicTacToeController c = new TicTacToeConsoleController(input, output);
     c.playGame(m);
-    StringBuffer stringBuffer = new StringBuffer( "   |   |  \n" 
+    StringBuilder stringBuilder = new StringBuilder("   |   |  \n" 
         + "-----------\n" 
         + "   |   |  \n" 
         + "-----------\n" 
@@ -269,17 +276,17 @@ public class TicTacToeControllerTest {
         + "   |   |  \n" 
         + "-----------\n" 
         + "   |   |  ");
-    assertEquals(stringBuffer.toString(), output.toString());
+    assertEquals(stringBuilder.toString(), output.toString());
   }
 
   @Test
-  public void testXWin() {
+  public void testxWin() {
     TicTacToe m = new TicTacToeModel();
     StringReader input = new StringReader("1 1 2 1 1 2 2 2 1 3 2 3");
     Appendable output = new StringBuffer();
     TicTacToeController c = new TicTacToeConsoleController(input, output);
     c.playGame(m);
-    StringBuffer stringBuffer = new StringBuffer( "   |   |  \n" 
+    StringBuilder stringBuilder = new StringBuilder("   |   |  \n" 
         + "-----------\n" 
         + "   |   |  \n" 
         + "-----------\n" 
@@ -315,18 +322,18 @@ public class TicTacToeControllerTest {
         + "-----------\n" 
         + "   |   |  \n" 
         + "Game is over! X wins.");
-    assertEquals(stringBuffer.toString(), output.toString());
+    assertEquals(stringBuilder.toString(), output.toString());
   }
 
 
   @Test
-  public void testOWin() {
+  public void testoWin() {
     TicTacToe m = new TicTacToeModel();
     StringReader input = new StringReader("1 1 2 1 1 2 2 2 3 3 2 3");
     Appendable output = new StringBuffer();
     TicTacToeController c = new TicTacToeConsoleController(input, output);
     c.playGame(m);
-    StringBuffer stringBuffer = new StringBuffer( "   |   |  \n" 
+    StringBuilder stringBuilder = new StringBuilder("   |   |  \n" 
         + "-----------\n" 
         + "   |   |  \n" 
         + "-----------\n" 
@@ -368,7 +375,7 @@ public class TicTacToeControllerTest {
         + "-----------\n" 
         + "   |   | X\n" 
         + "Game is over! O wins.");
-    assertEquals(stringBuffer.toString(), output.toString());
+    assertEquals(stringBuilder.toString(), output.toString());
   }
   
   @Test
@@ -378,7 +385,7 @@ public class TicTacToeControllerTest {
     Appendable output = new StringBuffer();
     TicTacToeController c = new TicTacToeConsoleController(input, output);
     c.playGame(m);
-    StringBuffer stringBuffer = new StringBuffer("   |   |  \n" 
+    StringBuilder stringBuilder = new StringBuilder("   |   |  \n" 
         + "-----------\n" 
         + "   |   |  \n" 
         + "-----------\n" 
@@ -438,6 +445,6 @@ public class TicTacToeControllerTest {
         + "-----------\n" 
         + " X | O | X\n" 
         + "Game is over! Tie game.");
-    assertEquals(stringBuffer.toString(), output.toString());
+    assertEquals(stringBuilder.toString(), output.toString());
   }
 }
